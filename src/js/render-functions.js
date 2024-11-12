@@ -18,7 +18,6 @@ export function renderImages(data, lightbox) {
     return undefined;
   } else {
     let max = Math.ceil(data.totalHits / maxPhoto);
-    console.log(max);
     if (max === pages) {
       closeBtn();
       iziToast.error({

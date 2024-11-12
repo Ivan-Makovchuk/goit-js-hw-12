@@ -58,7 +58,11 @@ form.addEventListener('submit', async event => {
       if (!renderImages(data, lightbox)) {
         throw new Error('No images found!');
       } else {
-        showBtn();
+        if (data.hits.length < 15) {
+          closeBtn();
+        } else {
+          showBtn();
+        }
 
         btnPages.addEventListener('click', loadMoreImages);
       }
@@ -97,15 +101,13 @@ async function loadMoreImages() {
       closeBtn();
     } else {
       showBtn();
-    };
+    }
 
     window.scrollTo({
       top: document.body.scrollHeight,
       behavior: 'smooth',
     });
 
-
-    update();
   } catch (error) {
     iziToast.error({
       title: 'Error',
