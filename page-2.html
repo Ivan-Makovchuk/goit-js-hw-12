@@ -8,52 +8,34 @@
     <link rel="stylesheet" crossorigin href="/goit-js-hw-12/assets/styles-DgiZaVps.css">
   </head>
   <body>
-    <header class="header">
-  <div class="container">
-    <nav class="nav">
-      <a class="nav-logo" href="./index.html" aria-label="Site logo">
-        <svg class="nav-logo-icon" width="100" height="30">
-          <use href="/goit-js-hw-12/assets/sprite-E8vg0sBb.svg#logo"></use>
-        </svg>
-      </a>
-      <ul class="nav-list">
-        <li class="nav-item">
-          <a class="nav-link active" href="./page-2.html">Page 2</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link {=$highlight-curr}" href="./page-3.html">Page 3</a>
-        </li>
-      </ul>
-    </nav>
-  </div>
-</header>
-
+    <div id="header-container"></div>
 
     <main>
       <div class="container">
         <h1 class="main-title">
           <span class="main-title-gradient">Welcome</span> to page 2
         </h1>
-        <a class="back-link" href="./index.html">Go back</a>
-
+        <div id="back-link-container"></div>
       </div>
     </main>
 
-    <footer class="footer">
-  <div class="container">
-    <p class="footer-desc">
-      Made with ✨ by
-      <a
-        class="footer-link"
-        href="https://goit.global/ua/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        GoIT team
-      </a>
-    </p>
-  </div>
-</footer>
+    <div id="footer-container"></div>
 
+    <script>
+      async function loadComponent(url, containerId) {
+        try {
+          const response = await fetch(url);
+          if (!response.ok) throw new Error('Network response was not ok');
+          const content = await response.text();
+          document.getElementById(containerId).innerHTML = content;
+        } catch (error) {
+          console.error('Error loading component:', error);
+        }
+      }
+
+      loadComponent('./partials/header.html', 'header-container');
+      loadComponent('./partials/back-link.html', 'back-link-container');
+      loadComponent('./partials/footer.html', 'footer-container');
+    </script>
   </body>
 </html>
