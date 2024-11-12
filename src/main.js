@@ -31,12 +31,10 @@ const btnPages = document.querySelector('.test1');
 
 function showBtn() {
   btnPages.style.display = 'block';
-  console.log('Button shown');
 }
 
 export function closeBtn() {
   btnPages.style.display = 'none';
-  console.log('Button hidden');
 }
 
 closeBtn();
@@ -65,10 +63,9 @@ form.addEventListener('submit', async event => {
         btnPages.addEventListener('click', loadMoreImages);
       }
     } catch (error) {
-      closeBtn();
       iziToast.error({
-        message:
-          'Sorry, there are no images matching your search query. Please try again!',
+        title: 'Error',
+        message: 'Oops, something went wrong. Please try again later.',
         messageSize: 18,
         messageLineHeight: 30,
         position: 'topRight',
@@ -81,7 +78,6 @@ form.addEventListener('submit', async event => {
 
 async function loadMoreImages() {
   incrementPage();
-  console.log('Current page:', pages);
   try {
     showLoading();
     const data = await fetchImages(userText);
@@ -97,15 +93,29 @@ async function loadMoreImages() {
     }
     renderImages(data, lightbox);
 
-    setTimeout(() => {
-      window.scrollTo({
-        top: document.body.scrollHeight,
-        behavior: 'smooth',
-      });
-    }, 300);
+    if (data.hits.length < 15) {
+      closeBtn();
+    } else {
+      showBtn();
+    };
+
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: 'smooth',
+    });
+
+
     update();
   } catch (error) {
-    console.log(error);
+    iziToast.error({
+      title: 'Error',
+      message: 'Oops, something went wrong. Please try again later.',
+      messageSize: 18,
+      messageLineHeight: 30,
+      position: 'topRight',
+    });
+  } finally {
+    hideLoading();
   }
 }
 
@@ -115,7 +125,4 @@ function update() {
   if (rect.height) {
     width = rect.height;
   }
-}
-
-document.addEventListener('scroll', update);
-update();
+};
